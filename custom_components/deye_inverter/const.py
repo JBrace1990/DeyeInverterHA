@@ -21,5 +21,6 @@ CORE_REGISTER_BLOCKS = [
 OPTIONAL_REGISTER_BLOCKS = [
     (0x0003, 0x000E),  # device info: inverter id, board versions
     (0x00F4, 0x00F8),  # work mode, time of use
+    (0x0071, 0x0072),  # PV3 voltage and current (3-MPPT models)
 ]
 REGISTER_BLOCKS = CORE_REGISTER_BLOCKS + OPTIONAL_REGISTER_BLOCKS
