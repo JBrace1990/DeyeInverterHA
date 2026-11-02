@@ -49,8 +49,13 @@ async def async_setup_entry(
     async_add_entities(entities, update_before_add=False)
 
 
+def _total_pv_power(data: dict[str, Any]) -> float:
+    """Sum available MPPT power values, including PV3 on supported models."""
+    return sum(float(data.get(f"PV{i} Power", 0.0)) for i in (1, 2, 3))
+
+
 class DeyeInverterSensor(CoordinatorEntity[DeyeDataUpdateCoordinator], SensorEntity):
-    """Legacy aggregate sensor: total PV power (PV1 + PV2)."""
+    """Legacy aggregate sensor: total PV power."""
 
     _attr_has_entity_name = True
 
@@ -70,10 +75,10 @@ class DeyeInverterSensor(CoordinatorEntity[DeyeDataUpdateCoordinator], SensorEnt
 
     @property
     def native_value(self) -> float:
-        """Return the sum of PV1 and PV2 power as the main sensor value."""
+        """Return the sum of all available MPPT power values."""
         data = self.coordinator.data
         try:
-            return float(data.get("PV1 Power", 0.0)) + float(data.get("PV2 Power", 0.0))
+            return _total_pv_power(data)
         except (TypeError, ValueError):
             return 0.0
 
@@ -107,7 +112,7 @@ class DeyeProductionPercentSensor(
 
     @property
     def native_value(self) -> Optional[float]:
-        """Return PV1+PV2 power relative to the installed power in kW."""
+        """Return total PV power relative to the installed power in kW."""
         installed_kw = getattr(self.coordinator, "installed_power", 0)
         try:
             installed_w = float(installed_kw) * 1000
@@ -118,9 +123,7 @@ class DeyeProductionPercentSensor(
 
         data = self.coordinator.data or {}
         try:
-            pv_power = float(data.get("PV1 Power", 0.0)) + float(
-                data.get("PV2 Power", 0.0)
-            )
+            pv_power = _total_pv_power(data)
         except (TypeError, ValueError):
             return None
         return round(pv_power / installed_w * 100, 1)
