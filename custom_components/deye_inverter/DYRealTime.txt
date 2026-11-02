@@ -23,6 +23,16 @@
         "unit": "W"
       },
       {
+        "titleZH": "PV3功率",
+        "titleEN": "PV3 Power",
+        "registers": ["0x00BC"],
+        "interactionType": 1,
+        "parserRule": 1,
+        "inputRanges": [],
+        "ratio": 1,
+        "unit": "W"
+      },
+      {
         "titleZH": "PV1电压",
         "titleEN": "PV1 Voltage",
         "registers": ["0x006D"],
@@ -43,6 +53,16 @@
         "unit": "V"
       },
       {
+        "titleZH": "PV3电压",
+        "titleEN": "PV3 Voltage",
+        "registers": ["0x0071"],
+        "interactionType": 1,
+        "parserRule": 1,
+        "inputRanges": [],
+        "ratio": 0.1,
+        "unit": "V"
+      },
+      {
         "titleZH": "PV1电流",
         "titleEN": "PV1 Current",
         "registers": ["0x006E"],
@@ -56,6 +76,16 @@
         "titleZH": "PV2电流",
         "titleEN": "PV2 Current",
         "registers": ["0x0070"],
+        "interactionType": 1,
+        "parserRule": 1,
+        "inputRanges": [],
+        "ratio": 0.1,
+        "unit": "A"
+      },
+      {
+        "titleZH": "PV3电流",
+        "titleEN": "PV3 Current",
+        "registers": ["0x0072"],
         "interactionType": 1,
         "parserRule": 1,
         "inputRanges": [],
